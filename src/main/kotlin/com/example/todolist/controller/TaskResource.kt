@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.*
 class TaskResource(private val taskService: TaskService) {
 
     @GetMapping
-    fun getTasks(): List<Task> = taskService.getTasks()
-
-    @PostMapping
-    fun addTask(@RequestBody task: Task): ResponseEntity<Task> = taskService.addTask(task)
+    fun list(): List<Task> = taskService.getTasks()
 
     @GetMapping("/{id}")
-    fun getTaskById(@PathVariable(value = "id") taskId: Long): ResponseEntity<Task> = taskService.getTaskById(taskId)
+    fun query(@PathVariable(value = "id") taskId: Long): ResponseEntity<Task> = taskService.getTaskById(taskId)
+
+    @PostMapping
+    fun create(@RequestBody task: Task): ResponseEntity<Task> = taskService.addTask(task)
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable(value = "id") taskId: Long, @RequestBody task: Task): ResponseEntity<Task> = taskService.putTask(taskId, task)
 
     @DeleteMapping("/{id}")
-    fun deleteTask(@PathVariable(value = "id") taskId: Long): ResponseEntity<Void> = taskService.deleteTask(taskId)
+    fun delete(@PathVariable(value = "id") taskId: Long): ResponseEntity<Void> = taskService.deleteTask(taskId)
 }

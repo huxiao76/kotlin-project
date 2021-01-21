@@ -13,22 +13,22 @@ class TaskService(private val taskRepository: TaskRepository) {
 
     fun addTask(task: Task): ResponseEntity<Task> = ResponseEntity.ok(taskRepository.save(task))
 
-    fun getTaskById(taskId: Long): ResponseEntity<Task> = taskRepository.findById(taskId).map { taskId -> ResponseEntity.ok(taskId) }
+    fun getTaskById(taskId: Long): ResponseEntity<Task> = taskRepository.findById(taskId).map { task -> ResponseEntity.ok(task) }
             .orElse(ResponseEntity.notFound().build())
 
-//    fun putTask(taskId: Long, newTask: Task): ResponseEntity<Task> = taskRepository.findById(taskId).map { currentTask ->
-//        val updatedTask: Task =
-//                currentTask
-//                        .copy(
-//                        title = newTask.title,
-//                        description = newTask.description,
-//                                status = newTask.status,
-//                                startDate = newTask.startDate,
-//                                priority = newTask.priority,
-//                                dueDate = newTask.dueDate
-//                )
-//        ResponseEntity.ok().body(taskRepository.save(updatedTask))
-//    }.orElse(ResponseEntity.notFound().build())
+    fun putTask(taskId: Long, newTask: Task): ResponseEntity<Task> = taskRepository.findById(taskId).map { currentTask ->
+        val updatedTask: Task =
+                currentTask
+                        .copy(
+                        title = newTask.title,
+                        description = newTask.description,
+                                status = newTask.status,
+                                startDate = newTask.startDate,
+                                priority = newTask.priority,
+                                dueDate = newTask.dueDate
+                )
+        ResponseEntity.ok().body(taskRepository.save(updatedTask))
+    }.orElse(ResponseEntity.notFound().build())
 
     fun deleteTask(taskId: Long): ResponseEntity<Void> =
             taskRepository.findById(taskId).map { task ->
